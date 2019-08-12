@@ -8,25 +8,35 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/graphql', graphqlHttp({
-    schema: buildSchema(`
-    type rootQuery {                 
-        events: [String!]!
-    }
+        schema: buildSchema(`
+            type rootQuery {                 
+                events: [String!]!
+        }
 
-    type rootMutation {
-        createEvent(name: String): String
+            type rootMutation {
+                createEvent(name: String): String
+        }
 
-    }
+            schema {
+                query: rootQuery
+                mutation: rootMutation
+        }
+    `),                     // where to find the schemas, queries, result...etc
+        rootValue: {
+            events: () => {
+                return [
+                    'Romantic Cooking', 'Sailing', 'Camping'
+                ]
+            },
+            createEvent: (args) => {
+                const eventName = args.name;
+                return eventName;
+            }
+        },
+        graphiql: true //UI 
+    })
 
-    schema {
-        query: rootQuery
-        mutation: rootMutation
-    }
-  
-  
-  `),                     // where to find the schemas, queries, result...etc
-    rootValue: {}
-}));
+);
 
 
 
