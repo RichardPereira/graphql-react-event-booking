@@ -9,13 +9,20 @@ app.use(bodyParser.json());
 
 app.use('/graphql', graphqlHttp({
         schema: buildSchema(`
+            type Event {
+                _id: ID!
+                title: String!
+                description: String!
+                price: Float!
+                date: String!
+            }
             type rootQuery {                 
-                events: [String!]!
-        }
+                events: [Event!]!
+            }
 
             type rootMutation {
-                createEvent(name: String): String
-        }
+                createEvent(name: String): Event
+            }
 
             schema {
                 query: rootQuery
@@ -24,9 +31,7 @@ app.use('/graphql', graphqlHttp({
     `),                     // where to find the schemas, queries, result...etc
         rootValue: {
             events: () => {
-                return [
-                    'Romantic Cooking', 'Sailing', 'Camping'
-                ]
+                return ['Romantic Cooking', 'Sailing', 'Camping']
             },
             createEvent: (args) => {
                 const eventName = args.name;
