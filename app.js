@@ -13,7 +13,8 @@ app.use('/graphql', graphqlHttp({
         events: [String!]!
     }
 
-    type rootMutation {    
+    type rootMutation {
+        createEvent(name: String): String
 
     }
 
