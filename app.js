@@ -26,7 +26,6 @@ app.use('/graphql', graphqlHttp({
                 date: String!
             }
 
-
             type rootQuery {                 
                 events: [Event!]!
             }
