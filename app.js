@@ -10,7 +10,7 @@ const events = []; //temp until database
 app.use(bodyParser.json());
 
 app.use('/graphql', graphqlHttp({
-        schema: buildSchema(`
+    schema: buildSchema(`
             type Event {
                 _id: ID!
                 title: String!
@@ -39,25 +39,25 @@ app.use('/graphql', graphqlHttp({
                 mutation: rootMutation
         }
     `),                     // where to find the schemas, queries, result...etc
-        rootValue: {
-            events: () => {
-                return events;
-            },
-            createEvent: (args) => {
-                const event = {
-                    _id: Math.random().toString(),
-                    title: args.evenInput.title,
-                    description: args.evenInput.description,
-                    price: +args.evenInput.price,
-                    date: args.evenInput.date
-                };
-                events.push(event) // Insert new events to the Event List
-              
-                return event;
-            }
+    rootValue: {
+        events: () => {
+            return events;
         },
-        graphiql: true //UI 
-    })
+        createEvent: (args) => {
+            const event = {
+                _id: Math.random().toString(),
+                title: args.evenInput.title,
+                description: args.evenInput.description,
+                price: +args.evenInput.price,
+                date: args.evenInput.date
+            };
+            events.push(event) // Insert new events to the Event List
+
+            return event;
+        }
+    },
+    graphiql: true //UI 
+})
 
 );
 
