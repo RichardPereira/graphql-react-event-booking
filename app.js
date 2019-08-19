@@ -41,7 +41,18 @@ app.use('/graphql', graphqlHttp({
     `),                     // where to find the schemas, queries, result...etc
     rootValue: {
         events: () => {
-            return events;
+            return Event.find() // asyc event: GraphQl need to wait to finished 
+                .then(
+                    events => {
+                        return events.map(event => {
+                            return { ...event._doc } //remove the metadata
+                        });
+                    }
+                )
+                .catch(err => {
+                    console.log(err);
+                    throw err;
+                })
         },
         createEvent: (args) => {
             const event = new Event({
