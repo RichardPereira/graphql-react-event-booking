@@ -12,6 +12,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//fetching User by their Id
+const user = userId => {
+    return User.findById(userId)
+        .then(user => {
+            return { ...user._doc, id: user.id }
+        })
+        .catch(err => {
+            throw err;
+        });
+};
+
 app.use('/graphql', graphqlHttp({
     schema: buildSchema(`
             type Event {
@@ -58,14 +69,17 @@ app.use('/graphql', graphqlHttp({
     `),                     // where to find the schemas, queries, result...etc
     rootValue: {
         events: () => {
-            return Event.find().populate('creator') // asyc event: GraphQl need to wait to finished 
+            return Event.find() // asyc event: GraphQl need to wait to finished           
                 .then(
                     events => {
                         return events.map(event => {
-                            return { ...event._doc } //remove the metadata
+                            return {
+                                ...event._doc,
+                                _id: event.id,
+                                creator: user.bind(this, event._doc.creator)
+                            };
                         });
-                    }
-                )
+                    })
                 .catch(err => {
                     console.log(err);
                     throw err;
