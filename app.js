@@ -20,11 +20,13 @@ app.use('/graphql', graphqlHttp({
                 description: String!
                 price: Float!
                 date: String!
+                creator: User!
             }
             type User {
                 _id: ID!
                 email: String!
                 password: String
+                createdEvents: [Event!]
 
             }
 
@@ -56,7 +58,7 @@ app.use('/graphql', graphqlHttp({
     `),                     // where to find the schemas, queries, result...etc
     rootValue: {
         events: () => {
-            return Event.find() // asyc event: GraphQl need to wait to finished 
+            return Event.find().populate('creator') // asyc event: GraphQl need to wait to finished 
                 .then(
                     events => {
                         return events.map(event => {
