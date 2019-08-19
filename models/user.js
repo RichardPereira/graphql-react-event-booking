@@ -9,7 +9,14 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+
+    CreatedEvent: [  // events created by user
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Event' // Connection to the Event model
+        }
+    ] 
 });
 
 module.exports = mongoose.model("User", userSchema);
