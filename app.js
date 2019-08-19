@@ -98,7 +98,7 @@ app.use('/graphql', graphqlHttp({
                     return user.save();
                 })
                 .then(result => {
-                    return {...result._doc};
+                    return {...result._doc, password: null};
                 })
                 .catch(err => {
                     throw err;
