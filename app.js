@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
 const mongoose = require("mongoose");
+
 const Event = require('./models/event');
 
 const app = express();
@@ -17,6 +18,12 @@ app.use('/graphql', graphqlHttp({
                 description: String!
                 price: Float!
                 date: String!
+            }
+            type User {
+                _id: ID!
+                email: String!
+                password: String
+
             }
 
             input EventInput{
