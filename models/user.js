@@ -11,7 +11,7 @@ const userSchema = new Schema({
         required: true
     },
 
-    CreatedEvent: [  // events created by user
+    CreatedEvents: [  // events created by user
         {
             type: Schema.Types.ObjectId,
             ref: 'Event' // Connection to the Event model
