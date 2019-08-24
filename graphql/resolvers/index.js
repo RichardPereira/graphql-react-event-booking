@@ -64,7 +64,7 @@ module.exports = {
             description: args.evenInput.description,
             price: +args.evenInput.price,
             date: new Date(args.evenInput.date),
-            creator: '5d5e977f0eef6436ec2e3638'
+            creator: '5d61589462b8a8280cc9cb61'
         });
         let createdEvent;
         try {
@@ -75,13 +75,13 @@ module.exports = {
                 _id: result._doc._id.toString(),
                 creator: user.bind(this, result._doc.creator)
             };
-            const user = await User.findById('5d5e977f0eef6436ec2e3638') // dummy temp Id
+            const creator = await User.findById('5d61589462b8a8280cc9cb61') // dummy temp Id
                 ;
-            if (!user) {
+            if (!creator) {
                 throw new Error('User not found.');
             }
-            user.createdEvents.push(event); // associate the Event to the User
-            const result_1 = await user.save();
+            creator.createdEvents.push(event); // associate the Event to the User
+            await creator.save();
             return createdEvent;
         }
         catch (err) {
@@ -91,17 +91,17 @@ module.exports = {
     },
     createUser: async args => {
         try {
-            const user = await User.findOne({ email: args.userInput.email });
-            if (user) {
+            const existingUser = await User.findOne({ email: args.userInput.email });
+            if (existingUser) {
                 throw new Error('User exists already.');
             }
             const hashedPassword = await bcrypt
                 .hash(args.userInput.password, 12);
-            const user_1 = new User({
+            const user = new User({
                 email: args.userInput.email,
                 password: hashedPassword
             });
-            const result = await user_1.save();
+            const result = await user.save();
             return { ...result._doc, password: null };
         }
         catch (err) {
