@@ -27,7 +27,7 @@ module.exports = {
                 _id: args.eventId
             });
             const booking = new Booking({
-                user: '5d61589462b8a8280cc9cb61',
+                user: req.userId,
                 event: fetchedEvent
 
             });
