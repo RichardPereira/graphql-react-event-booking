@@ -12,7 +12,7 @@ const mainNavigation = props => (
             return (
                 <header className="main-navigation">
                     <div className="main-navigation__logo">
-                        <h1>I am a header</h1>
+                        <h1>Super Events</h1>
                     </div>
                     <nav className="main-navigation__items">
                         <ul>
@@ -23,6 +23,12 @@ const mainNavigation = props => (
                             {context.token && (
                                 <li><NavLink to="/bookings">Bookings</NavLink></li>
                             )}
+                            <React.Fragment>
+                            {context.token && (
+                                <li><button>Logout</button></li>
+                            )}
+                            </React.Fragment>
+                           
                         </ul>
                     </nav>
                 </header>
