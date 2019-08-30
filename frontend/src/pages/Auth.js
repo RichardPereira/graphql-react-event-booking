@@ -7,8 +7,8 @@ class AuthPage extends Component {
         isLogin: true
     }
 
-    static contextType =  AuthContext;
-    
+    static contextType = AuthContext;
+
     constructor(props) {
         super(props);
         this.emailEL = React.createRef();
@@ -16,7 +16,7 @@ class AuthPage extends Component {
     }
     switchModeHandler = () => {
         this.setState(prevState => {
-            return {isLogin: !prevState.isLogin};
+            return { isLogin: !prevState.isLogin };
         })
     }
     submitHandler = (event) => {
@@ -26,8 +26,8 @@ class AuthPage extends Component {
         if (email.trim().lenght === 0 || password.trim().lenght === 0) {
             return;
         }
-        let requestBody ={
-            query:`query {login(email: "${email}", password:"${password}"){
+        let requestBody = {
+            query: `query {login(email: "${email}", password:"${password}"){
                     userId
                     token
                     tokenExpiration
@@ -36,32 +36,40 @@ class AuthPage extends Component {
             `
         };
 
-        if(this.state.isLogin){
-             requestBody = {
+        if (this.state.isLogin) {
+            requestBody = {
                 query: `mutation {createUser(userInput: {email: "${email}", password:"${password}"}) {_id email}}`
             };
 
         }
-   
+
         fetch('http://localhost:8000/graphql', {
-            method:'POST',
+            method: 'POST',
             body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then( res => {
-            if(res.status !== 200 && res.status !== 201){
-                throw new Error('Failed!');
-            }
-            return res.json();
-        })
-        .then (resData =>{
-            console.log(resData);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            })
+            .then(resData => {
+                if (resData.data.login.token) {
+                    this.context.login(
+                        resData.data.login.token,
+                        resData.data.login.userId,
+                        resData.data.login.tokenExpiration
+                        );
+
+
+                };
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
     };
     render() {
