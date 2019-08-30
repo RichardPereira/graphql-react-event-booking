@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import './Auth.css';
+import AuthContext from '../context/auth-contex';
 
 class AuthPage extends Component {
     state = {
         isLogin: true
     }
+
+    static contextType =  AuthContext;
+    
     constructor(props) {
         super(props);
         this.emailEL = React.createRef();
