@@ -29,6 +29,6 @@
 
 .form-actions button:hover,
 .form-actions button:active {
-    background: darkslategrey;
-    border-color: darkslategrey;
+    background: #f3a683;
+    border-color: #f3a683;
 }
