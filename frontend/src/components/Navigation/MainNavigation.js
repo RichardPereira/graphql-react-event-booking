@@ -25,7 +25,7 @@ const mainNavigation = props => (
                             )}
                             <React.Fragment>
                             {context.token && (
-                                <li><button>Logout</button></li>
+                                <li><button onClick={context.logout}>Logout</button></li>
                             )}
                             </React.Fragment>
                            
