@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MONGO_USER": "AdminRW",
+        "MONGO_PASSWORD": "DqxJRduDF5CDKhnf",
+        "MONGO_DB": "events-rect-dev"
+    }
+}
